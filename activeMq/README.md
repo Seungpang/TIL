@@ -23,7 +23,7 @@ ___activeMQ는 JMS로 구현한 메시지 지향 미들웨어(MOM)이다.___
   사용하기 쉬운 엔터프라이즈 통합 패턴 및 많은 고급 기능을 제공하면서 JMS 1.1 및 J2EE 1.4를 완벽하게 지원한다.
 + MOM(메시지 지향 미들웨어)이다.
 + ActiveMQ는 JMS를 지원하는 클라이언트를 포함하는 브로커, 자바뿐만 아니라 다양한 언어를 이용하는 시스템간의 통신을 할 수 있게 해준다.
-+ 간단히 정의하면 클라이언트 간 메시지를 송수신 할 수 있는 오픈 소스 Broker(JMS 서버)이다.
++ 간단히 정의하면 클라이언트 간 메시지를 송수신 할 수 있는 오픈 소스 Broker(JMS 서버)이다.</br>
 ___=>즉, activeMQ에서 JMS는 핵심요소이다.___
 
 ## JMS
@@ -40,7 +40,7 @@ Topic: Publish to Subscribe
 
 
 ## activeMQ 메시지 처리 구조
-Producuer(생산자)가 Message를 Queue/Topic에 넣어두면, Consumer가 Message를 가져와 처리하는 방식
+Producuer(생산자)가 Message를 Queue/Topic에 넣어두면, Consumer가 Message를 가져와 처리하는 방식</br>
 ___=> 기본적으로 Message를 생산하는 Producer, activeMQ Broker(Server), Message를 소비하는 Consumer로 구성되어 있다.___
 </br>
 </br>
@@ -64,5 +64,48 @@ ___=> 기본적으로 Message를 생산하는 Producer, activeMQ Broker(Server),
 4. 비동기 처리: 클라이언트와 서버 통신이 비 차단이다. 클라이언트가 서버에 요청을 보내면 응답을 기다리지 않고 다른 작업을 수행 할 수 있다.</br>
    응답을 받으면 클라이언트는 언제든지 처리 할 수 있다.
    
+   
+## Broker
 
+activeMQ에는 language, clustering, jmx monitoring, message, embedded broker, Persistence, DB등 여러 특징이 있다.<br/>
+
+1. EMbeded Broker
+Java에서 activeMQ Broker Server를 직접 구현하겠다면 다음과 가이 3가지 방법으로 구현할 수 있다.
+> Maven(Spring), xBean, Broker 객체를 직접 생성
+
+(1)
+```java
+public class MQServer {
+
+	public static void main(String[] args) {
+
+		try {
+                      // ActiveMQConnectionFactory를 사용하고 VM 커넥터를 URI로 사용하여 내장 브로커를 만들 수 있다.
+		                //BrokerService broker= ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
+                 //BrokerService broker = BrokerFactory.createBroker("broker:()/master");
+
+                BrokerService broker = new BrokerService();
+
+				broker.setBrokerName("Broker1");
+				broker.setUseJmx(true); // check true or false
+				broker.setPersistent(true);
+				// broker.addConnector("tcp://localhost:61616");
+
+				/// start() 메소드가 저장소 잠금 보류를 차단할 때 유용합니다 (예 : 슬레이브 시작).
+				TransportConnector conn = new TransportConnector();
+				conn.setUri(new URI("tcp://localhost:61616"));
+
+				// failover:// 브로커 클러스터에 대한 클라이언트 연결을 업데이트
+				// conn.setUpdateClusterClients(true);
+				broker.addConnector(conn);
+				broker.start();
+
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    }
+}
+
+```
 
