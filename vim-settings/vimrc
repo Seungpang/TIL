@@ -1,0 +1,62 @@
+set shell=/bin/bash
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'scrooloose/nerdtree'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'airblade/vim-gitgutter' " vim with git status(added, modified, and removed lines)
+Plugin 'tpope/vim-fugitive' " vim with git command(e.g., Gdiff)
+Plugin 'vim-airline/vim-airline' " vim status bar
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'blueyed/vim-diminactive'
+Plugin 'pbondoer/vim-42header'
+call vundle#end()
+
+
+let g:hdr42user = 'sekim'
+let g:hdr42mail = 'sekim@student.42seoul.kr'
+
+set t_Co=256
+set nu
+
+" for jellybeans
+colorscheme jellybeans
+
+" for taglist
+nmap <F8> :Tagbar<CR>
+nmap <F3> :NERDTreeToggle<CR>
+
+" for indent guide
+let g:indentguides_spacechar = '┆'
+let g:indentguides_tabchar = '|'
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+
+" for vim-airline
+let g:airline#extensions#tabline#enabled = 1 " turn on buffer list
+let g:airline_theme='hybrid'
+set laststatus=2 " turn on bottom bar
+let mapleader = ","
+nnoremap <leader>q :bp<CR>
+nnoremap <leader>w :bn<CR>
+
+" for blueyed/vim-diminactive
+let g:diminactive_enable_focus = 1
+
+syntax enable
+filetype indent on
+highlight Comment term=bold cterm=bold ctermfg=4
+
+
+
+
